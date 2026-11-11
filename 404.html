@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Twin Check — Redirecting</title>
+  <script>
+    // GitHub Pages SPA redirect:
+    // Save the path the user tried to visit, then redirect to index.html
+    // which will read it back and use replaceState to restore the URL.
+    sessionStorage.setItem('spa-redirect', location.pathname + location.search + location.hash);
+    location.replace('/');
+  </script>
+</head>
+<body></body>
+</html>

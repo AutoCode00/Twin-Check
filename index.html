@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twin Check — Is your mainnet contract really the one you tested?</title>
+  <meta name="description" content="Paste your testnet and mainnet addresses and get a clear answer in seconds — plus an on-chain Deploy Verified badge on BOT Chain." />
+
+  <!-- Google Fonts: Manrope, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="src/styles/main.css" />
+
+  <!-- Favicon SVG (Two overlapping rounded squares) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='16' height='16' rx='4' fill='%23C9B8FF'/%3E%3Crect x='12' y='12' width='16' height='16' rx='4' fill='%239ED8FF' fill-opacity='0.85'/%3E%3C/svg%3E" />
+</head>
+<body class="website-view">
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <nav class="site-nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-logo" aria-label="Twin Check Home">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="16" height="16" rx="5" fill="#C9B8FF" />
+          <rect x="13" y="13" width="16" height="16" rx="5" fill="#9ED8FF" fill-opacity="0.88" />
+          <circle cx="8" cy="8" r="1.5" fill="#1B1B1E" />
+          <circle cx="18" cy="18" r="1.5" fill="#1B1B1E" />
+        </svg>
+        <span>Twin Check</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#checks">Checks</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <div class="nav-actions">
+        <button id="nav-connect-btn" class="btn btn-outline btn-sm">
+          Connect wallet
+        </button>
+        <a id="nav-check-btn" href="/app" class="btn btn-mint btn-sm">
+          Check my twins
+        </a>
+      </div>
+
+      <button id="nav-hamburger" class="nav-hamburger" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-nav" class="mobile-nav">
+    <a href="#how-it-works">How it works</a>
+    <a href="#checks">Checks</a>
+    <a href="#faq">FAQ</a>
+    <a href="/app" style="color: var(--mint); font-weight: 700;">Check my twins →</a>
+  </div>
+
+  <!-- ============================================================
+       APP ROUTE CONTAINER (/app and /t/:id render here)
+       ============================================================ -->
+  <div id="app-container" style="display: none;"></div>
+
+  <!-- ============================================================
+       WEBSITE CONTENT (10 Sections)
+       ============================================================ -->
+
+  <!-- SECTION 1: HERO -->
+  <section class="website-section hero" id="hero">
+    <div class="container hero-content">
+      <h1 class="hero-headline" style="font-family: 'Manrope', sans-serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; line-height: 1.15; max-width: 820px; margin: 0 auto 20px;">
+        The deploy check your mainnet <span class="gradient-text">deserved.</span>
+      </h1>
+
+      <p class="hero-sub" style="font-size: 1.2rem; color: var(--muted); max-width: 580px; margin: 0 auto 36px; line-height: 1.6;">
+        Paste your testnet and mainnet addresses. Know they're twins before the judges look — and get a verified badge to prove it.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="/app" class="btn btn-mint btn-lg" style="font-weight: 700; border-radius: var(--radius-pill); box-shadow: 0 4px 24px rgba(168, 230, 207, 0.28);">
+          Check my twins
+        </a>
+        <a href="/t/231" class="btn btn-outline btn-lg" style="border-radius: var(--radius-pill);">
+          See a sample report →
+        </a>
+      </div>
+
+      <div class="hero-note" style="margin-top: 14px; font-size: 0.88rem; color: var(--muted);">
+        Free · No install · Works with any BOT Chain contract
+      </div>
+
+      <!-- Mascot & Bytecode Zip Animation Stage -->
+      <div class="hero-mascots" style="position: relative; max-width: 680px; margin: 60px auto 0; padding: 20px 0;">
+
+        <!-- Tic (Lavender, Testnet) -->
+        <div class="hero-tic" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <svg class="mascot-tic" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="80" height="80" rx="24" fill="#C9B8FF" />
+            <rect x="14" y="14" width="72" height="72" rx="20" fill="url(#tic-grad)" />
+            <!-- Eyes -->
+            <ellipse cx="38" cy="46" rx="5" ry="6" fill="#1B1B1E" />
+            <circle cx="40" cy="44" r="2" fill="#FFFFFF" />
+            <ellipse cx="62" cy="46" rx="5" ry="6" fill="#1B1B1E" />
+            <circle cx="64" cy="44" r="2" fill="#FFFFFF" />
+            <!-- Soft Smile -->
+            <path d="M42 60 Q50 67 58 60" stroke="#1B1B1E" stroke-width="3.5" stroke-linecap="round" fill="none" />
+            <!-- Cute Blush -->
+            <circle cx="30" cy="54" r="4" fill="#E8DFFF" />
+            <circle cx="70" cy="54" r="4" fill="#E8DFFF" />
+            <defs>
+              <linearGradient id="tic-grad" x1="14" y1="14" x2="86" y2="86" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#D7CAFF" />
+                <stop offset="1" stop-color="#BAA5FF" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--lavender); letter-spacing: 0.05em;">
+            TIC · TESTNET (968)
+          </span>
+        </div>
+
+        <!-- Center Bytecode Strips & High-Five Stage -->
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+          <div style="display: flex; align-items: center; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow: hidden; padding: 10px 14px; background: var(--panel); border: 1px solid var(--hairline); border-radius: 999px;">
+            <span class="hero-bytecode-left" style="color: var(--lavender);">6080604052348015</span>
+            <span class="hero-check" style="background: var(--mint); color: #1B1B1E; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px;">✓</span>
+            <span class="hero-bytecode-right" style="color: var(--sky);">6080604052348015</span>
+          </div>
+
+          <div class="hero-highfive" style="margin-top: 10px; font-size: 12px; font-weight: 700; color: var(--mint); background: var(--mint-dim); padding: 4px 12px; border-radius: 12px; border: 1px solid rgba(168, 230, 207, 0.3);">
+            ✨ High-Five! Bytecode Match
+          </div>
+        </div>
+
+        <!-- Tac (Sky, Mainnet) -->
+        <div class="hero-tac" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <svg class="mascot-tac" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="80" height="80" rx="24" fill="#9ED8FF" />
+            <rect x="14" y="14" width="72" height="72" rx="20" fill="url(#tac-grad)" />
+            <!-- Eyes -->
+            <ellipse cx="38" cy="46" rx="5" ry="6" fill="#1B1B1E" />
+            <circle cx="40" cy="44" r="2" fill="#FFFFFF" />
+            <ellipse cx="62" cy="46" rx="5" ry="6" fill="#1B1B1E" />
+            <circle cx="64" cy="44" r="2" fill="#FFFFFF" />
+            <!-- Soft Smile -->
+            <path d="M42 60 Q50 67 58 60" stroke="#1B1B1E" stroke-width="3.5" stroke-linecap="round" fill="none" />
+            <!-- Cute Blush -->
+            <circle cx="30" cy="54" r="4" fill="#CDEBFF" />
+            <circle cx="70" cy="54" r="4" fill="#CDEBFF" />
+            <defs>
+              <linearGradient id="tac-grad" x1="14" y1="14" x2="86" y2="86" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#B2E2FF" />
+                <stop offset="1" stop-color="#89CBFF" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--sky); letter-spacing: 0.05em;">
+            TAC · MAINNET (677)
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: TWO ADDRESSES, ONE ANSWER -->
+  <section class="website-section" id="how-it-works" style="padding: 100px 0;">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; max-width: 640px; margin: 0 auto 48px;">
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px;">
+          Two addresses, one answer.
+        </h2>
+        <p class="section-sub" style="color: var(--muted); font-size: 1.05rem;">
+          No complex CLI commands. Simply paste both contract addresses and watch verification stream in live.
+        </p>
+      </div>
+
+      <div class="section-mockup twin-input-mockup">
+        <div class="mac-window">
+          <div class="mac-titlebar">
+            <div class="mac-dots">
+              <span class="mac-dot mac-dot-red"></span>
+              <span class="mac-dot mac-dot-yellow"></span>
+              <span class="mac-dot mac-dot-green"></span>
+            </div>
+            <div class="mac-titlebar-text">twin-check — inputs</div>
+            <div style="width: 48px;"></div>
+          </div>
+          <div class="mac-body">
+            <div class="twin-inputs-row">
+              <div class="input-card" style="border-color: rgba(201, 184, 255, 0.3);">
+                <div class="input-card-label" style="color: var(--lavender);">
+                  <span>●</span> Bohr Testnet (Chain 968)
+                </div>
+                <div class="input-card-field">0x5393Ec7a20c9a44c330c6a5b4625b161394aB5C5</div>
+              </div>
+              <div class="input-card" style="border-color: rgba(158, 216, 255, 0.3);">
+                <div class="input-card-label" style="color: var(--sky);">
+                  <span>●</span> BOT Chain Mainnet (Chain 677)
+                </div>
+                <div class="input-card-field">0x5393Ec7a20c9a44c330c6a5b4625b161394aB5C5</div>
+              </div>
+            </div>
+            <div class="mock-result-banner">
+              <span class="result-icon">✓</span>
+              <span>Twins! Mainnet matches testnet (CBOR metadata stripped)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: EVERY BYTE, COMPARED -->
+  <section class="website-section" id="checks" style="padding: 100px 0; background: rgba(35, 35, 38, 0.4);">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; max-width: 640px; margin: 0 auto 48px;">
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px;">
+          Every byte, compared.
+        </h2>
+        <p class="section-sub" style="color: var(--muted); font-size: 1.05rem;">
+          We cut off the CBOR metadata tail and compare the real EVM instructions byte by byte, recognizing immutable constructor parameters without false alarms.
+        </p>
+      </div>
+
+      <div class="section-mockup hex-diff-mockup">
+        <div class="mac-window">
+          <div class="mac-titlebar">
+            <div class="mac-dots">
+              <span class="mac-dot mac-dot-red"></span>
+              <span class="mac-dot mac-dot-yellow"></span>
+              <span class="mac-dot mac-dot-green"></span>
+            </div>
+            <div class="mac-titlebar-text">twin-check — bytecode diff</div>
+            <div style="width: 48px;"></div>
+          </div>
+          <div class="mac-body">
+            <div class="hex-grid">
+              <div class="hex-offset">0000:</div>
+              <div class="hex-bytes">
+                <span class="hex-byte match">60</span><span class="hex-byte match">80</span><span class="hex-byte match">60</span><span class="hex-byte match">40</span><span class="hex-byte match">52</span><span class="hex-byte match">34</span><span class="hex-byte match">80</span><span class="hex-byte match">15</span><span class="hex-byte match">61</span><span class="hex-byte match">00</span><span class="hex-byte match">10</span><span class="hex-byte match">57</span><span class="hex-byte match">60</span><span class="hex-byte match">00</span><span class="hex-byte match">80</span><span class="hex-byte match">fd</span>
+              </div>
+
+              <div class="hex-offset">0010:</div>
+              <div class="hex-bytes">
+                <span class="hex-byte match">5b</span><span class="hex-byte match">50</span><span class="hex-byte match">60</span><span class="hex-byte match">04</span><span class="hex-byte match">36</span><span class="hex-byte match">10</span><span class="hex-byte match">61</span><span class="hex-byte match">00</span><span class="hex-byte match">a9</span><span class="hex-byte match">57</span><span class="hex-byte match">60</span><span class="hex-byte match">00</span><span class="hex-byte match">35</span><span class="hex-byte match">60</span><span class="hex-byte match">e0</span><span class="hex-byte match">1c</span>
+              </div>
+
+              <div class="hex-offset">0020:</div>
+              <div class="hex-bytes">
+                <span class="hex-byte match">80</span><span class="hex-byte match">63</span><span class="hex-byte match">06</span><span class="hex-byte match">fd</span><span class="hex-byte match">de</span><span class="hex-byte match">03</span><span class="hex-byte match">14</span><span class="hex-byte match">61</span><span class="hex-byte immutable">73</span><span class="hex-byte immutable">3a</span><span class="hex-byte immutable">9f</span><span class="hex-byte immutable">88</span><span class="hex-byte immutable">21</span><span class="hex-byte match">57</span><span class="hex-byte match">80</span><span class="hex-byte match">63</span>
+              </div>
+            </div>
+
+            <div class="hex-legend">
+              <div class="hex-legend-item">
+                <span class="hex-legend-swatch" style="background: var(--muted);"></span>
+                <span>Exact Match (EVM code)</span>
+              </div>
+              <div class="hex-legend-item">
+                <span class="hex-legend-swatch" style="background: var(--butter);"></span>
+                <span>Constructor Immutable (20/32-byte run)</span>
+              </div>
+              <div class="hex-legend-item">
+                <span class="hex-legend-swatch" style="background: var(--coral);"></span>
+                <span>Code Mismatch</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: KNOW THE COMPILER BEFORE IT BITES -->
+  <section class="website-section" style="padding: 100px 0;">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; max-width: 640px; margin: 0 auto 48px;">
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px;">
+          Know the compiler before it bites.
+        </h2>
+        <p class="section-sub" style="color: var(--muted); font-size: 1.05rem;">
+          Solidity 0.8.20 introduced PUSH0 by default. Twin Check scans your opcodes and warns you before a deployment fails on Paris-configured chains.
+        </p>
+      </div>
+
+      <div class="section-mockup compiler-mockup">
+        <div class="mac-window">
+          <div class="mac-titlebar">
+            <div class="mac-dots">
+              <span class="mac-dot mac-dot-red"></span>
+              <span class="mac-dot mac-dot-yellow"></span>
+              <span class="mac-dot mac-dot-green"></span>
+            </div>
+            <div class="mac-titlebar-text">twin-check — compiler audit</div>
+            <div style="width: 48px;"></div>
+          </div>
+          <div class="mac-body">
+            <div class="compiler-row">
+              <span class="compiler-label">Testnet Compiler Version</span>
+              <span class="compiler-value" style="color: var(--lavender);">solc 0.8.24</span>
+            </div>
+            <div class="compiler-row">
+              <span class="compiler-label">Mainnet Compiler Version</span>
+              <span class="compiler-value" style="color: var(--sky);">solc 0.8.24</span>
+            </div>
+            <div class="compiler-row">
+              <span class="compiler-label">Metadata Parity</span>
+              <span class="compiler-value" style="color: var(--mint);">Match (Both stripped) ✓</span>
+            </div>
+
+            <div class="opcode-warning">
+              <div class="opcode-warning-icon">⚠️</div>
+              <div class="opcode-warning-text">
+                <strong>Uses PUSH0 opcode (0x5f)</strong><br />
+                BOT Chain runs EVM Paris. Compile with <code>evmVersion: "paris"</code> in your Remix or Hardhat configuration if your transactions revert unexpectedly.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: SAME STATE? SEE IT SIDE BY SIDE -->
+  <section class="website-section" style="padding: 100px 0; background: rgba(35, 35, 38, 0.4);">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; max-width: 640px; margin: 0 auto 48px;">
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px;">
+          Same state? See it side by side.
+        </h2>
+        <p class="section-sub" style="color: var(--muted); font-size: 1.05rem;">
+          Drop your ABI and Twin Check calls every zero-input view method simultaneously on both networks.
+        </p>
+      </div>
+
+      <div class="section-mockup values-table-mockup">
+        <div class="mac-window">
+          <div class="mac-titlebar">
+            <div class="mac-dots">
+              <span class="mac-dot mac-dot-red"></span>
+              <span class="mac-dot mac-dot-yellow"></span>
+              <span class="mac-dot mac-dot-green"></span>
+            </div>
+            <div class="mac-titlebar-text">twin-check — view values</div>
+            <div style="width: 48px;"></div>
+          </div>
+          <div class="mac-body" style="padding: 0;">
+            <table class="values-table">
+              <thead>
+                <tr>
+                  <th>Function</th>
+                  <th>Bohr Testnet</th>
+                  <th>BOT Chain</th>
+                  <th>Parity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fn-name">name()</td>
+                  <td class="val-cell">"BOT Genesis"</td>
+                  <td class="val-cell">"BOT Genesis"</td>
+                  <td><span class="chip val-match" style="background: var(--mint-dim);">Match ✓</span></td>
+                </tr>
+                <tr>
+                  <td class="fn-name">symbol()</td>
+                  <td class="val-cell">"GEN"</td>
+                  <td class="val-cell">"GEN"</td>
+                  <td><span class="chip val-match" style="background: var(--mint-dim);">Match ✓</span></td>
+                </tr>
+                <tr>
+                  <td class="fn-name">totalSupply()</td>
+                  <td class="val-cell">10,000</td>
+                  <td class="val-cell">0</td>
+                  <td><span class="chip" style="background: var(--butter-dim); color: var(--butter);">Expected diff</span></td>
+                </tr>
+                <tr>
+                  <td class="fn-name">owner()</td>
+                  <td class="val-cell">0x3A51…7D43</td>
+                  <td class="val-cell">0x3A51…7D43</td>
+                  <td><span class="chip val-match" style="background: var(--mint-dim);">Match ✓</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: PROOF, NOT PROMISES -->
+  <section class="website-section" style="padding: 100px 0;">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; max-width: 640px; margin: 0 auto 48px;">
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px;">
+          Proof, not promises.
+        </h2>
+        <p class="section-sub" style="color: var(--muted); font-size: 1.05rem;">
+          Record your report to the TwinRegistry smart contract on BOT Chain mainnet and get a permanent verified badge for your repository README.
+        </p>
+      </div>
+
+      <div class="section-mockup badge-mockup">
+        <div class="mac-window">
+          <div class="mac-titlebar">
+            <div class="mac-dots">
+              <span class="mac-dot mac-dot-red"></span>
+              <span class="mac-dot mac-dot-yellow"></span>
+              <span class="mac-dot mac-dot-green"></span>
+            </div>
+            <div class="mac-titlebar-text">twin-check — /t/231</div>
+            <div style="width: 48px;"></div>
+          </div>
+          <div class="mac-body">
+            <div class="badge-card">
+              <div class="badge-result">
+                <span>🧊🤝🧊</span>
+                <span>Deploy Verified: Twins ✓</span>
+              </div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); margin-bottom: 24px;">
+                Recorded by owner (0x3A51…7D43) · Stored on BOT Chain
+              </div>
+              <div style="background: var(--bg); border: 1px solid var(--hairline); border-radius: 8px; padding: 14px; text-align: left;">
+                <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">Copy Markdown Badge:</div>
+                <pre style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); overflow-x: auto; margin: 0;">[![Twin Check: Verified](https://img.shields.io/badge/BOT_Chain-Verified_Twin-A8E6CF)](https://twincheck.botchain.ai/t/231)</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: THE REST OF IT (12 Feature Cards) -->
+  <section class="website-section" style="padding: 100px 0; background: rgba(35, 35, 38, 0.4);">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; max-width: 640px; margin: 0 auto 56px;">
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px;">
+          The rest of it.
+        </h2>
+        <p class="section-sub" style="color: var(--muted); font-size: 1.05rem;">
+          Everything you need for iron-clad deployment confidence, without the overhead.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <!-- 1. Code Exists -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-mint">✓</div>
+          <h4>Code Exists</h4>
+          <p>Verifies runtime bytecode presence on both chains before starting analysis.</p>
+        </div>
+
+        <!-- 2. Size vs 24KB -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-butter">📏</div>
+          <h4>Size vs 24 KB Limit</h4>
+          <p>Calculates exact bytecode size and warns if approaching the Spurious Dragon cap.</p>
+        </div>
+
+        <!-- 3. Owner Check -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-lavender">🔑</div>
+          <h4>Owner Check</h4>
+          <p>Checks <code>owner()</code> on both networks and flags if mainnet owner is zero.</p>
+        </div>
+
+        <!-- 4. Immutables Explained -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-sky">🧬</div>
+          <h4>Immutables Explained</h4>
+          <p>Recognizes 20-byte and 32-byte constructor parameters so you don't panic.</p>
+        </div>
+
+        <!-- 5. ABI from Remix -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-mint">⚡</div>
+          <h4>ABI from Remix Artifact</h4>
+          <p>Paste raw JSON or drag-and-drop compiler artifacts without manual reformatting.</p>
+        </div>
+
+        <!-- 6. History -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-lavender">📜</div>
+          <h4>Report History</h4>
+          <p>Quick access to all twin checks performed in your browser or recorded on-chain.</p>
+        </div>
+
+        <!-- 7. Checked by Owner -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-mint">🛡️</div>
+          <h4>Checked by Owner</h4>
+          <p>Smart contract automatically authenticates if caller is the contract owner.</p>
+        </div>
+
+        <!-- 8. Share Link -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-sky">🔗</div>
+          <h4>Permanent Share Link</h4>
+          <p>Every recorded badge gets a dedicated <code>/t/:id</code> URL for hackathons and judges.</p>
+        </div>
+
+        <!-- 9. Testnet & Mainnet RPCs -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-butter">🌐</div>
+          <h4>Dual Native RPCs</h4>
+          <p>Direct JSON-RPC calls to Bohr (968) and BOT Chain (677) in parallel.</p>
+        </div>
+
+        <!-- 10. No Backend -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-mint">🔒</div>
+          <h4>Client-Side Only</h4>
+          <p>No backend database storing your addresses. Verification runs in your browser.</p>
+        </div>
+
+        <!-- 11. IPFS Report -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-lavender">📦</div>
+          <h4>IPFS Report Archive</h4>
+          <p>Full JSON verification results hashed and pinned for permanent decentralization.</p>
+        </div>
+
+        <!-- 12. Works on Mobile -->
+        <div class="card feature-card">
+          <div class="feature-icon fi-sky">📱</div>
+          <h4>Responsive Mobile UI</h4>
+          <p>Fluid stacked cards and touch-optimized view for inspecting contracts anywhere.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: FREE. ALWAYS. -->
+  <section class="website-section" style="padding: 100px 0;">
+    <div class="container">
+      <div class="section-mockup free-card">
+        <div class="chip" style="background: var(--mint-dim); color: var(--mint); margin-bottom: 16px; font-weight: 600;">
+          Zero Cost
+        </div>
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.4rem; font-weight: 800;">
+          Free. Always.
+        </h2>
+        <p class="section-sub" style="margin-top: 12px; margin-bottom: 28px;">
+          Everything included. No subscriptions, no API keys, no lock-in. Just standard BOT Chain gas if you choose to record your badge on-chain.
+        </p>
+        <a href="/app" class="btn btn-mint btn-lg" style="font-weight: 700; border-radius: var(--radius-pill);">
+          Start Free Twin Check →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: BEFORE YOU ASK (FAQ) -->
+  <section class="website-section" id="faq" style="padding: 100px 0; background: rgba(35, 35, 38, 0.4);">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; max-width: 640px; margin: 0 auto 56px;">
+        <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px;">
+          Before you ask.
+        </h2>
+        <p class="section-sub" style="color: var(--muted); font-size: 1.05rem;">
+          Answers to common questions about bytecode comparisons on BOT Chain.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <!-- Q1 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Why don't my bytecodes match exactly?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Solidity appends compiler metadata (such as solc version and IPFS compilation details) to the end of your contract. Furthermore, immutable variables set in the constructor are inlined directly into runtime bytecode. Twin Check strips the CBOR metadata tail and isolates immutable offsets so you can see whether the actual executable code is identical.
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What's PUSH0 and why does Twin Check warn about it?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              PUSH0 is an EVM instruction introduced in Shanghai (Solidity 0.8.20+). Chains that run the Paris EVM specification do not support PUSH0, which will cause transactions to revert with an invalid opcode error. Twin Check scans for 0x5f and advises compiling with <code>evmVersion: "paris"</code> if detected.
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Do you need my source code?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              No! Twin Check operates purely on runtime bytecode fetched directly from the RPC nodes of Bohr Testnet and BOT Chain Mainnet. You never need to upload or expose proprietary source code.
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is recording on-chain required?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              No. You can run unlimited free bytecode and view comparisons in your browser without connecting a wallet or spending gas. Recording is an optional step if you want a permanent on-chain badge proof on BOT Chain.
+            </div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can anyone record a report for my contract?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Anyone can run and record a report, but Twin Check automatically checks the contract's <code>owner()</code> method on-chain. If the recorder address matches the contract owner, the badge permanently displays a distinct "Checked by owner ✓" badge.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10: CLOSING CTA -->
+  <section class="website-section cta-section" style="padding: 120px 0;">
+    <div class="container text-center" style="text-align: center;">
+      <h2 class="section-headline" style="font-family: 'Manrope', sans-serif; font-size: 2.8rem; font-weight: 800; margin-bottom: 16px;">
+        Your mainnet twin is waiting.
+      </h2>
+      <p class="section-sub" style="font-size: 1.15rem; color: var(--muted); max-width: 520px; margin: 0 auto 36px;">
+        Paste both addresses and get immediate certainty before sharing your contract with the world.
+      </p>
+      <a href="/app" class="btn btn-mint btn-lg" style="font-weight: 700; border-radius: var(--radius-pill); box-shadow: 0 4px 24px rgba(168, 230, 207, 0.3);">
+        Check my twins now
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER (Section 13 — Creative Mac-Window, NO GITHUB LINK)
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container">
+
+      <!-- Mac-Window Report Widget -->
+      <div class="footer-window">
+        <div class="mac-window">
+          <div class="mac-titlebar">
+            <div class="mac-dots">
+              <span class="mac-dot mac-dot-red"></span>
+              <span class="mac-dot mac-dot-yellow"></span>
+              <span class="mac-dot mac-dot-green"></span>
+            </div>
+            <div class="mac-titlebar-text">twin-check — report.json</div>
+            <div style="width: 48px;"></div>
+          </div>
+          <div class="mac-body">
+            <div class="footer-cards">
+              <!-- Tic (Lavender) Holding Registry Contract -->
+              <div class="footer-card footer-card-tic">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                  <span style="font-size: 18px;">🧊</span>
+                  <span class="footer-card-label" style="color: var(--lavender); margin: 0;">TwinRegistry</span>
+                </div>
+                <div class="footer-card-value">0x54F1…a93C</div>
+                <a href="https://scan.botchain.ai/address/0x54F18c0c0eB09F74251EbA461E3472f10ca93C" target="_blank" rel="noopener noreferrer" class="btn btn-mint btn-sm" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 6px 14px;">
+                  View on explorer ↗
+                </a>
+              </div>
+
+              <!-- Between them: Twins Badge -->
+              <div class="footer-twins-badge">
+                = twins ✓
+              </div>
+
+              <!-- Tac (Sky) Holding BOT Chain Logo -->
+              <div class="footer-card footer-card-tac">
+                <a href="https://botchain.ai" target="_blank" rel="noopener noreferrer" style="display: block;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 18px;">🧊</span>
+                    <span class="footer-card-label" style="color: var(--sky); margin: 0;">BOT Chain</span>
+                  </div>
+                  <div class="footer-card-value" style="color: var(--text); font-weight: 600;">
+                    botchain.ai ↗
+                  </div>
+                  <span style="font-size: 12px; color: var(--muted); text-decoration: underline;">
+                    Visit Official Chain
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Live Line -->
+            <div class="footer-stats">
+              <div class="footer-stat">REPORTS <strong>274</strong></div>
+              <div class="footer-stat">TWINS <strong>231</strong></div>
+              <div class="footer-stat">CHAIN ID <strong>677</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links Row (Dabbit-Minimal, strictly NO GitHub) -->
+      <div class="footer-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="/t/231">Sample report</a>
+        <a href="https://botchain.ai" target="_blank" rel="noopener noreferrer">BOT Chain docs</a>
+        <a href="https://faucet.botchain.ai" target="_blank" rel="noopener noreferrer">Faucet</a>
+        <a href="https://x.com" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="#faq">Privacy</a>
+      </div>
+
+      <!-- Bottom Tagline -->
+      <div class="footer-copy">
+        © 2026 Twin Check · made for BOT Chain builders
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       CDN DEPENDENCIES & APP MODULE
+       ============================================================ -->
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+
+  <!-- ethers.js v6 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.1/ethers.umd.min.js"></script>
+
+  <!-- Main ES Module entry -->
+  <script type="module" src="src/main.js"></script>
+
+</body>
+</html>
