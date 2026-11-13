@@ -38,3 +38,4 @@ Deployed on **BOT Chain Mainnet** (Chain ID: `677`).
    - Connect to BOT Chain Mainnet (Chain ID `677`)
    - Click **Deploy**
 5. Copy the deployed contract address and paste it in `src/config.js` (`REGISTRY_ADDRESS`).
+

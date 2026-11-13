@@ -18,10 +18,12 @@ import {
 import { initHeroAnimations } from './animations/hero.js';
 import { initScrollAnimations } from './animations/scroll.js';
 import { initCardAnimations } from './animations/cards.js';
+import { REGISTRY_ADDRESS, MAINNET_EXPLORER } from './config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   setupNavbar();
   setupFaqAccordion();
+  setupFooter();
   initCardAnimations();
 
   // Initialize SPA routes
@@ -107,7 +109,7 @@ function updateNavWallet() {
     connectBtn.textContent = getShortAddress(getAddress());
     connectBtn.classList.remove('btn-outline');
     connectBtn.classList.add('btn-mint');
-    connectBtn.style.color = '#1B1B1E';
+    connectBtn.style.color = '';
   } else {
     connectBtn.textContent = 'Connect wallet';
     connectBtn.classList.remove('btn-mint');
@@ -134,4 +136,33 @@ function setupFaqAccordion() {
       });
     }
   });
+}
+
+/**
+ * Footer: TwinRegistry address, copy button and explorer link,
+ * all driven by REGISTRY_ADDRESS in config.js
+ */
+function setupFooter() {
+  const addrEl = document.getElementById('footer-registry-addr');
+  const linkEl = document.getElementById('footer-registry-link');
+  const copyBtn = document.getElementById('footer-registry-copy');
+
+  if (addrEl) {
+    addrEl.textContent = `${REGISTRY_ADDRESS.slice(0, 6)}…${REGISTRY_ADDRESS.slice(-4)}`;
+    addrEl.title = REGISTRY_ADDRESS;
+  }
+  if (linkEl) {
+    linkEl.href = `${MAINNET_EXPLORER}/address/${REGISTRY_ADDRESS}`;
+  }
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(REGISTRY_ADDRESS);
+        copyBtn.textContent = 'Copied';
+      } catch {
+        copyBtn.textContent = 'Copy failed';
+      }
+      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+    });
+  }
 }

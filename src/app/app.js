@@ -67,7 +67,7 @@ export function renderApp(container) {
           <a href="/" class="btn btn-outline" style="padding: 6px 14px; font-size: 13px;">
             ← Home
           </a>
-          <h1 style="font-family: 'Manrope', sans-serif; font-size: 24px; margin: 0;">
+          <h1 style="font-size: 24px; margin: 0;">
             Twin Check App
           </h1>
         </div>
@@ -115,10 +115,10 @@ export function renderApp(container) {
         <!-- Center Swap Button & Mascots -->
         <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
           <div id="app-mascots" style="display: flex; gap: 4px; align-items: center;">
-            <div title="Tic (Testnet)" style="width: 32px; height: 32px; background: var(--lavender); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+            <div title="Tic (Testnet)" style="width: 32px; height: 32px; background: var(--lavender-dim); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">
               🧊
             </div>
-            <div title="Tac (Mainnet)" style="width: 32px; height: 32px; background: var(--sky); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+            <div title="Tac (Mainnet)" style="width: 32px; height: 32px; background: var(--sky-dim); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">
               🧊
             </div>
           </div>
@@ -178,7 +178,7 @@ export function renderApp(container) {
 
       <!-- Check Button -->
       <div style="text-align: center; margin-bottom: 32px;">
-        <button id="btn-check-twins" class="btn btn-mint" style="padding: 14px 44px; font-size: 16px; font-weight: 700; border-radius: var(--radius-pill); box-shadow: 0 4px 20px rgba(168, 230, 207, 0.25);">
+        <button id="btn-check-twins" class="btn btn-mint" style="padding: 14px 44px; font-size: 16px;">
           Check Twins
         </button>
       </div>
@@ -212,7 +212,7 @@ export function renderApp(container) {
                 <div id="banner-subtitle" style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700;">
                   Comparison Result
                 </div>
-                <h2 id="banner-title" style="font-family: 'Manrope', sans-serif; font-size: 24px; margin: 4px 0 0; color: var(--text);">
+                <h2 id="banner-title" style="font-size: 24px; margin: 4px 0 0; color: var(--text);">
                   Analyzing...
                 </h2>
                 <div id="banner-desc" style="font-size: 14px; color: var(--muted); margin-top: 4px;"></div>
@@ -255,7 +255,7 @@ export function renderApp(container) {
       <!-- History of Recorded Reports -->
       <div id="history-section" style="margin-top: 48px; border-top: 1px solid var(--hairline); padding-top: 32px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h3 style="font-family: 'Manrope', sans-serif; font-size: 18px; margin: 0;">
+          <h3 style="font-size: 18px; margin: 0;">
             Your Recorded Twin Reports
           </h3>
           <span id="history-count" style="font-size: 13px; color: var(--muted);">0 reports</span>
@@ -341,7 +341,7 @@ function updateWalletUi() {
     btn.textContent = getShortAddress(getAddress());
     btn.classList.remove('btn-outline');
     btn.classList.add('btn-mint');
-    btn.style.color = '#1B1B1E';
+    btn.style.color = '';
   } else {
     btn.textContent = 'Connect Wallet';
     btn.classList.remove('btn-mint');
@@ -869,7 +869,7 @@ function renderDiffDrawer(drawer, ranges, firstDiffOffset = null) {
   drawer.style.display = 'block';
   drawer.innerHTML = `
     <div class="mac-window card" style="background: var(--panel); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 20px;">
-      <h3 style="font-family: 'Manrope', sans-serif; font-size: 16px; margin: 0 0 12px; color: var(--text);">
+      <h3 style="font-size: 16px; margin: 0 0 12px; color: var(--text);">
         Bytecode Diff Analysis
       </h3>
       ${ranges.length > 0 ? `
@@ -907,7 +907,7 @@ function renderViewsDrawer(drawer, views) {
   drawer.style.display = 'block';
   drawer.innerHTML = `
     <div class="mac-window card" style="background: var(--panel); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 20px;">
-      <h3 style="font-family: 'Manrope', sans-serif; font-size: 16px; margin: 0 0 12px; color: var(--text);">
+      <h3 style="font-size: 16px; margin: 0 0 12px; color: var(--text);">
         No-Input View Values (Side-by-Side)
       </h3>
       <table style="width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
@@ -921,7 +921,7 @@ function renderViewsDrawer(drawer, views) {
         </thead>
         <tbody>
           ${views.map(v => `
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+            <tr style="border-bottom: 1px solid var(--hairline);">
               <td style="padding: 10px 12px; color: var(--text);">${v.name}()</td>
               <td style="padding: 10px 12px; color: var(--muted);">${v.testnetValue}</td>
               <td style="padding: 10px 12px; color: var(--muted);">${v.mainnetValue}</td>
@@ -937,3 +937,4 @@ function renderViewsDrawer(drawer, views) {
     </div>
   `;
 }
+

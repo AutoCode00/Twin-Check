@@ -44,7 +44,7 @@ export function animateMatch() {
   const pos = getComputedStyle(container).position;
   if (pos === 'static') container.style.position = 'relative';
 
-  const colors = ['#C9B8FF', '#9ED8FF']; // lavender, sky
+  const colors = ['#8B6CFF', '#19B5FE', '#22C55E', '#FFD84D', '#FF7AD9'];
   const pieces = [];
   const count = 28;
 

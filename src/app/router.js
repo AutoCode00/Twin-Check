@@ -122,3 +122,4 @@ function updateViewClasses(path) {
     if (appContainer) appContainer.style.display = 'block';
   }
 }
+

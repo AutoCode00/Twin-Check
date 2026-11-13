@@ -58,3 +58,4 @@ export function calculateKeccak256(str) {
     .toString(16)
     .padStart(64, '0');
 }
+

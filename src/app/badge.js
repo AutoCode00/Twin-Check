@@ -148,7 +148,7 @@ export async function renderBadge(container, reportId) {
             ID #${report.id}
           </span>
         </div>
-        <h2 style="font-family: 'Manrope', sans-serif; font-size: 26px; color: var(--text); margin: 0;">
+        <h2 style="font-size: 26px; color: var(--text); margin: 0;">
           ${resultTitle}
         </h2>
       </div>
@@ -156,11 +156,11 @@ export async function renderBadge(container, reportId) {
       <div style="display: flex; align-items: center; gap: 12px;">
         <!-- Tic & Tac Mascot SVG -->
         <div style="display: flex; gap: 6px; align-items: center;">
-          <div style="width: 44px; height: 44px; background: ${isMismatch ? 'rgba(201, 184, 255, 0.15)' : 'var(--lavender)'}; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+          <div style="width: 44px; height: 44px; background: ${isMismatch ? 'rgba(201, 184, 255, 0.15)' : 'var(--lavender-dim)'}; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
             <span style="font-size: 20px;">🧊</span>
           </div>
           <span style="font-size: 16px; color: ${resultColor}; font-weight: bold;">${isMatch ? '🤝' : isNotes ? '🤷' : '❓'}</span>
-          <div style="width: 44px; height: 44px; background: ${isMismatch ? 'rgba(158, 216, 255, 0.15)' : 'var(--sky)'}; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+          <div style="width: 44px; height: 44px; background: ${isMismatch ? 'rgba(158, 216, 255, 0.15)' : 'var(--sky-dim)'}; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
             <span style="font-size: 20px;">🧊</span>
           </div>
         </div>
@@ -241,7 +241,7 @@ export async function renderBadge(container, reportId) {
           Copy Markdown
         </button>
       </div>
-      <pre style="background: #141416; padding: 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); overflow-x: auto; white-space: pre-wrap; word-break: break-all;">${escapeHtml(markdownBadge)}</pre>
+      <pre style="background: var(--panel); padding: 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); overflow-x: auto; white-space: pre-wrap; word-break: break-all;">${escapeHtml(markdownBadge)}</pre>
       <div style="margin-top: 14px; display: flex; align-items: center; gap: 12px;">
         <span style="font-size: 13px; color: var(--muted);">Badge Preview:</span>
         <span class="chip" style="background: ${resultColor}22; color: ${resultColor}; border: 1px solid ${resultColor}; font-weight: 700;">
@@ -272,3 +272,4 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
